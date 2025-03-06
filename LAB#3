@@ -1,0 +1,130 @@
+
+#include <iostream>
+using namespace std;
+
+class Node {
+   public:
+    int data;
+    Node *next;
+    
+    Node(int d) {this->data = d; this->next = nullptr;}
+    Node() {this->data = 0; this->next = nullptr;};
+    
+};
+
+
+class Queue {
+    
+    public:    
+    Node *head;
+    Node *tail;
+    
+    Queue() {head = nullptr; tail= nullptr;}
+    
+    
+    bool isEmpty() {
+        
+         if(head == nullptr) {
+
+            return true;
+        }
+        
+        return false;
+    }
+    
+    
+    void enqueue(int newdata) {
+        
+        Node *newNode = new Node(newdata);
+       
+        
+        if(this->isEmpty()) {
+            head = newNode;
+            tail = newNode;
+            return;
+        }
+        
+        else {
+            tail->next = newNode;
+            tail = newNode;
+            return;
+        }
+    }
+    
+    void dequeue() {
+        
+       
+        
+        if(this->isEmpty()) {
+            
+            return ;
+        }
+        
+        Node *deleted = head;
+        head = head->next;
+        delete deleted;
+        
+        
+    }
+    
+    
+    Node top() {
+        
+        if(this->isEmpty()) {
+            return Node();
+        }
+        
+        return *head;
+    }
+    
+    
+    int size() {
+         int counter =1;
+        
+        if(this->isEmpty()) {
+            counter=0;
+            
+            return counter;
+        }
+        
+        Node * node = head->next;
+       
+        
+        
+        
+        while(node != nullptr) {
+            node=node->next;
+            counter++;
+            
+        }
+             return counter;
+
+    }
+    
+};
+
+
+int main() {
+
+Queue q;
+
+q.enqueue(1);
+q.enqueue(2);
+q.enqueue(3);
+
+cout<<"top is: "<<q.top().data<<endl;
+cout<<q.size()<<endl;
+
+q.dequeue();
+q.dequeue();
+q.dequeue();
+
+cout<<"top is: "<<q.top().data<<endl;
+
+cout<<q.isEmpty()<<endl;
+cout<<q.size();
+
+
+
+    return 0;
+}

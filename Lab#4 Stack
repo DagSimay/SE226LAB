@@ -1,0 +1,120 @@
+#include <iostream>
+using namespace std;
+
+class Node {
+public:
+    int data;
+    Node* next;
+    
+    Node (int data, Node* next) 
+    {
+        this->data= data;
+        this->next = next;
+    }
+};
+
+class Stack {
+private:
+    Node* head;     // Points to top element of stack.
+    int num;        // Number of elements (index-style tracking).
+    int capacity;   // Fixed size limit (resized when full).
+
+public:
+    Stack(int initialCapacity) {  // You can set any initial size.
+        head = nullptr;
+        num = -1;
+        capacity = initialCapacity;
+    }
+    void push(int x) {
+      
+            Node *newNode = new Node(x, nullptr);
+            
+      if(isEmpty()) {
+            head = newNode;  
+            num++;
+      }
+      
+        else {
+            Node * tmp = head;
+    
+            head = newNode;
+            head->next = tmp;
+            num++;
+            
+        }
+      
+    }
+
+    int pop() {
+        if(isEmpty()) {
+            cout<<"The stack is empty"<<endl;
+            return -1;
+        }
+        
+            
+        Node* temp = head;        
+        int poppedValue = head->data;
+        head = head->next;         
+        delete temp;              
+        num--;                      
+        return poppedValue;  
+    }
+    int peek() {
+        
+        
+        return head->data;
+    }
+
+    bool isEmpty() {
+        
+        
+        return num < 0;
+    }
+
+    void increaseCapacity() {
+        
+        if(num == capacity) {
+            capacity = capacity*2;
+        }
+    }
+
+    bool deleteElement(int val) {
+        
+        if(!isEmpty()) {
+            while(head->next != nullptr) {
+                if(head->data == val) {
+                    delete head;
+                }
+                else {
+                    head = head->next;
+                }
+            }
+        }
+        
+        
+        return false;
+    }
+};
+
+int main() {
+    
+    Stack s(5);
+    s.push(2);
+    s.push(3);
+    
+    cout<<"The top element is: "<<s.peek()<<endl;
+    
+    
+    
+    
+    cout<<"The top element is: "<<s.pop()<<endl;
+    cout<<"The top element is: "<<s.pop()<<endl;
+
+    
+    
+    
+
+    
+
+    return 0;
+}

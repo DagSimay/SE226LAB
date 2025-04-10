@@ -6,7 +6,7 @@ print(math_utils.multiply(2,5))
 print(math_utils.division(2,0))
 print(math_utils.power(2,5))
 print(math_utils.mod(2,5))
-
+-----------------------------------------------------------------------------
 #math_util.py
 def add(x,y):
         return x+y
@@ -32,7 +32,7 @@ def mod(x,y):
 
 if  __name__ == '__main__':
     add(2,5)
-
+------------------------------------------------------------------------------------------
 #calculator.py
 import math_utils
 
@@ -59,7 +59,7 @@ def main():
 
 if  __name__ == '__main__':
     main()
-
+------------------------------------------------------------------------------------------
 #__init__.py
 
 
@@ -74,7 +74,7 @@ __all__ = [
     'count_words',
     'average_word_length'
 ]
-
+------------------------------------------------------------------------------------------
 #manipulate.py
 import string
 def reverse_string(s):
@@ -85,7 +85,7 @@ def capitalize_words(s):
 
 def remove_punctuation(s):
     return s.translate(str.maketrans('', '', string.punctuation))
-
+------------------------------------------------------------------------------------------
 stats.py
 
 def count_characters(s):
@@ -99,7 +99,7 @@ def average_word_length(s):
     if not words:
         return 0
     return sum(len(word) for word in words) / len(words)
-
+------------------------------------------------------------------------------------------
 #string_analyzer.py
 from string_package import (
     reverse_string,
@@ -121,5 +121,6 @@ def analyze_string(sentence):
     print(f"Character count: {count_characters(cleaned_sentence)}")
     print(f"Word count: {count_words(cleaned_sentence)}")
     print(f"Average word length: {average_word_length(cleaned_sentence):.2f}")
+
 
 

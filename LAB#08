@@ -1,10 +1,7 @@
-from plistlib import loads
-
-
 class ArchiveItem:
-    def __init__(self,uid,title,year):
+    def __init__(self, uid, title, year):
         self.uid = uid
-        self.title =title
+        self.title = title
         self.year = int(year)
 
     def __str__(self):
@@ -13,30 +10,26 @@ class ArchiveItem:
     def __eq__(self, other):
         return self.uid == other.uid
 
-    def is_recent(self,n):
+    def is_recent(self, n):
         return self.year >= (2025 - n)
 
 class Book(ArchiveItem):
-    def __init__(self,uid,title,year,author,pages):
-        super().__init__(uid,title, year)
+    def __init__(self, uid, title, year, author, pages):
+        super().__init__(uid, title, year)
         self.author = author
         self.pages = int(pages)
 
-
     def __str__(self):
-        return f"BOOK -> UID:{self.uid},Title: {self.title},Year: {self.year},Author:  {self.author},Pages: {self.pages}"
-
+        return f"Book,{self.uid},{self.title},{self.year},{self.author},{self.pages}"
 
 class Article(ArchiveItem):
-    def __init__(self, uid,title,year,journal, doi):
-        super().__init__(uid,title, year)
+    def __init__(self, uid, title, year, journal, doi):
+        super().__init__(uid, title, year)
         self.journal = journal
-        self. doi = doi
-
+        self.doi = doi
 
     def __str__(self):
-        return f"ARTICLE -> UID: {self.uid}, Title{self.title}, Year: {self.year}, Journal: {self.journal}, Doi: {self.doi}"
-
+        return f"Article,{self.uid},{self.title},{self.year},{self.journal},{self.doi}"
 
 class Podcast(ArchiveItem):
     def __init__(self, uid, title, year, host, duration):
@@ -45,36 +38,24 @@ class Podcast(ArchiveItem):
         self.duration = int(duration)
 
     def __str__(self):
-        return f"PODCAST -> UID: {self.uid}, Title{self.title}, Year: {self.year}, Host:{self.host}, Duration: {self.duration} mins"
+        return f"Podcast,{self.uid},{self.title},{self.year},{self.host},{self.duration}"
 
-
-def save_to_file (items, filename):
+def save_to_file(items, filename):
     with open(filename, 'w') as f:
         for item in items:
-            if isinstance(item, Book):
-                f.write(str(item) + "/n")
-
-            elif isinstance(item, Article):
-                f.write(str(item) + "/n")
-
-            elif isinstance(item, Podcast):
-                f.write(str(item) + "/n")
-
+            f.write(str(item) + "\n")
 
 def load_from_file(filename):
     items = []
-    with open(filename, "r") as f:
+    with open(filename, 'r') as f:
         for line in f:
             parts = line.strip().split(',')
-            type = parts[0]
-
-            if type == "Book":
+            type_ = parts[0]
+            if type_ == "Book":
                 items.append(Book(*parts[1:]))
-
-            elif type == "Article":
+            elif type_ == "Article":
                 items.append(Article(*parts[1:]))
-
-            elif type == "Podcast":
+            elif type_ == "Podcast":
                 items.append(Podcast(*parts[1:]))
     return items
 
@@ -90,13 +71,19 @@ items  = [
 
 ]
 
-save_to_file(items, "archieve.txt")
-loaded_items = load_from_file("archieve.txt")
+save_to_file(items, "archive.txt")
+loaded_items = load_from_file("archive.txt")
 
+print("All Items:")
 for item in loaded_items:
     print(item)
 
-print ("\nRecent Items:")
+print("\nRecent Items (last 5 years):")
 for item in loaded_items:
     if item.is_recent(5):
+        print(item)
+
+print("\nArticles with DOI starting '10.1234':")
+for item in loaded_items:
+    if isinstance(item, Article) and item.doi.startswith("10.1234"):
         print(item)
